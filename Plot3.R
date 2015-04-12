@@ -1,0 +1,11 @@
+elec<-read.table("household_power_consumption.txt",skip=grep("31/1/2007;23:59:00",readLines("household_power_consumption.txt")),nrows=2880,sep=";")
+elec_datetime<-paste(elec$V1, elec$V2)
+elec$V2<-strptime(elec_datetime,"%d/%m/%Y %H:%M:%S")
+elec$V1<-as.Date(elec_datetime,"%d/%m/%Y")
+
+png(file="plot3.png", width = 480, height = 480)
+plot(elec$V2,elec$V7,type='l',ylab="Energy sub metering",xlab="",col="black")
+lines(elec$V2,elec$V8,col="red")
+lines(elec$V2,elec$V9,col="blue")
+legend("topright",legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lwd=1,lty=1,col=c("black","red","blue"))
+dev.off()
